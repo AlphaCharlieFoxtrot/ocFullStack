@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Les Bonnes Pièces</title>
+		<link rel="stylesheet" href="styles.css">
+		<script type="module" src="pieces.js"></script>
+	</head>
+	<body>
+		<header>
+			<img src="images/logo-les-bonnes-pieces.png" alt="LOGO">
+			<h1>Les Bonnes Pièces</h1>
+		</header>
+		<main>
+			<!-- Menu de recherche -->
+			<section class="filtres">
+				<h3>Filtres</h3>
+				<button class="btn-trier">Trier par prix croissant</button>
+				<br><br>
+				<button class="btn-trier-decroissant">Trier par prix dé-croissant</button>
+				<br><br>
+				<button class="btn-filtrer">Filtrer les pièces non abordables</button>
+				<br><br>
+				<button class="btn-filtrer-description">Filtrer les pièces sans description</button>
+				<br><br>
+				<label for="inputRange">Range</label><br>
+				<input type="range" name="inputRange" id="inputRange" min="0" max="60" step="5">
+			</section>
+
+			<!-- Fiches produits -->
+			<section class="fiches">
+				<div class="abordables">
+					<p>Pièces abordables :</p>
+				</div>
+				<div class="disponible">
+					<p>Pièce disponibles :</p>
+				</div>
+			</section>
+		</main>
+	</body>
+</html>
