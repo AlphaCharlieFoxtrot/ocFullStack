@@ -1,8 +1,12 @@
-const reponse = await fetch("pieces-autos.json");
+import { ajoutListenerAvis, ajoutListenerEnvoyerAvis } from "./avis.js";
+
+const reponse = await fetch("http://localhost:8081/pieces/");
 const pieces = await reponse.json();
 
+ajoutListenerEnvoyerAvis();
+
 function genererPiece(pieces){
-    for(let i = 0; i < pieces.length; i++){
+    for (let i = 0; i < pieces.length; i++) {
 
         const article = pieces[i]
     
@@ -21,6 +25,9 @@ function genererPiece(pieces){
         descriptionElement.innerText = article.description ?? "Pas de description pour le moment.";
         const disponibiliteElement = document.createElement("p");
         disponibiliteElement.innerText = `Disponibilité: ${article.disponibilite === true ? "En stock" : "Rupture de stock"}`;
+        const avisBouton = document.createElement("button");
+        avisBouton.dataset.id = article.id;
+        avisBouton.textContent = "Afficher les avis";
     
         sectionFiches.appendChild(pieceElement);
         pieceElement.appendChild(imageElement)
@@ -29,47 +36,14 @@ function genererPiece(pieces){
         pieceElement.appendChild(categorieElement);
         pieceElement.appendChild(descriptionElement);
         pieceElement.appendChild(disponibiliteElement);
+        pieceElement.appendChild(avisBouton);
     }
+    //Ajout fonction ajoutListenerAvis
+    ajoutListenerAvis();
 }
 
 genererPiece(pieces)
 
-
-/**DOM statique */
-    const noms = pieces.map(piece => piece.nom);
-
-    for(let i = pieces.length -1; i >= 0; i--){
-        if(pieces[i].prix > 35){
-            noms.splice(i,1)
-        }
-    }
-    //console.log(noms)
-    const abordablesElement = document.createElement("ul");
-    for(let i = 0; i < noms.length; i++){
-        const nomElement = document.createElement("li");
-        nomElement.innerText = noms[i];
-        abordablesElement.appendChild(nomElement);
-    }
-    document.querySelector(".abordables").appendChild(abordablesElement)
-
-    const nom = pieces.map(piece => piece.nom);
-    const prix = pieces.map(piece => piece.prix);
-
-    for(let i = pieces.length -1; i >= 0; i--){
-        if(pieces[i].disponibilite === false){
-            nom.splice(i,1);
-        };
-    };
-    //console.log(nom)
-    const disponibleElement = document.createElement("ul");
-    for(let i = 0; i < nom.length; i++){
-        const nomElement = document.createElement("li");
-        nomElement.innerText = `${nom[i]} - ${prix[i]} €`;
-        disponibleElement.appendChild(nomElement);
-    }
-    document.querySelector(".disponible").appendChild(disponibleElement)
-
-/** */
 
 /**filtres & bouttons */
     const boutonTrier = document.querySelector(".btn-trier");
@@ -123,5 +97,41 @@ genererPiece(pieces)
         document.querySelector(".fiches").innerHTML = "";
         genererPiece(piecesFiltrees)
     })
+
+/** */
+
+/**DOM statique */
+    const noms = pieces.map(piece => piece.nom);
+
+    for(let i = pieces.length -1; i >= 0; i--){
+        if(pieces[i].prix > 35){
+            noms.splice(i,1)
+        }
+    }
+    //console.log(noms)
+    const abordablesElement = document.createElement("ul");
+    for(let i = 0; i < noms.length; i++){
+        const nomElement = document.createElement("li");
+        nomElement.innerText = noms[i];
+        abordablesElement.appendChild(nomElement);
+    }
+    document.querySelector(".abordables").appendChild(abordablesElement)
+
+    const nom = pieces.map(piece => piece.nom);
+    const prix = pieces.map(piece => piece.prix);
+
+    for(let i = pieces.length -1; i >= 0; i--){
+        if(pieces[i].disponibilite === false){
+            nom.splice(i,1);
+        };
+    };
+    //console.log(nom)
+    const disponibleElement = document.createElement("ul");
+    for(let i = 0; i < nom.length; i++){
+        const nomElement = document.createElement("li");
+        nomElement.innerText = `${nom[i]} - ${prix[i]} €`;
+        disponibleElement.appendChild(nomElement);
+    }
+    document.querySelector(".disponible").appendChild(disponibleElement)
 
 /** */
